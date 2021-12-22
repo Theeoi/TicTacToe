@@ -24,16 +24,16 @@ class HumanPlayer(Player):
         valid_square = False
         val = None
         while not valid_square:
-            square = input(self.letter + '\'s turn. Input move (0-8):')
+            square = input(self.letter + '\'s turn. Input move (1-9):')
             try:
                 val = int(square)
-                if val not in game.available_moves():
+                if val not in [i+1 for i in game.available_moves()]:
                     raise ValueError
                 valid_square = True
             except ValueError:
                 print('Invalid square. Try again.')
         
-        return val
+        return val - 1
 
 class SmartComputerPlayer(Player):
     def __init__(self, letter) -> None:
