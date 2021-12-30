@@ -1,32 +1,33 @@
 #!/usr/bin/env python 
 
-from player import HumanPlayer, RandomComputerPlayer, SmartComputerPlayer
 import time
+
+from player import HumanPlayer, RandomComputerPlayer, SmartComputerPlayer
 
 class TicTacToe:
     def __init__(self) -> None:
         self.board = [' ' for _ in range(9)]
         self.current_winner = None
 
-    def print_board(self):
+    def print_board(self) -> None:
         for row in [self.board[i*3:(i+1)*3] for i in range(3)]:
             print('| ' + ' | '.join(row) + ' |')
 
     @staticmethod
-    def print_board_nums():
+    def print_board_nums() -> None:
         for row in [[str(i) for i in range(j*3+1, (j+1)*3+1)] for j in range(3)]:
             print('| ' + ' | '.join(row) + ' |')
             
-    def available_moves(self):
+    def available_moves(self) -> list:
         return [i for i, spot in enumerate(self.board) if spot == ' ']
 
-    def empty_squares(self):
+    def empty_squares(self) -> bool:
         return ' ' in self.board
 
-    def num_empty_squares(self):
+    def num_empty_squares(self) -> int:
         return self.board.count(' ')
 
-    def make_move(self, square, letter):
+    def make_move(self, square: int, letter: str) -> bool:
         if self.board[square] == ' ':
             self.board[square] = letter
             if self.winner(square, letter):
@@ -34,7 +35,7 @@ class TicTacToe:
             return True
         return False
 
-    def winner(self, square, letter): # Checks if there are 3 in a row anywhere.
+    def winner(self, square: int, letter: str) -> bool: # Checks if there are 3 in a row anywhere.
         # Checking rows
         row_ind = square // 3
         row = self.board[row_ind*3 : (row_ind + 1)*3]
@@ -60,7 +61,7 @@ class TicTacToe:
         return False
 
         
-def play(game, x_player, o_player, print_game=True):
+def play(game: TicTacToe, x_player, o_player, print_game: bool = True):
     if print_game:
         game.print_board_nums()
 
@@ -84,13 +85,28 @@ def play(game, x_player, o_player, print_game=True):
 
             letter = 'O' if letter == 'X' else 'X'
 
-        time.sleep(.8)
+        if x_player == HumanPlayer or o_player == HumanPlayer:
+            time.sleep(.8)
 
     if print_game:
         print('It\'s a tie!')
 
 if __name__ == '__main__':
-    x_player = HumanPlayer('X')
-    o_player = SmartComputerPlayer('O')
-    t = TicTacToe()
-    play(t, x_player, o_player, print_game=True)
+    x_wins, o_wins, ties = [0, 0, 0]
+
+    num_iter = 100
+    for _ in range(num_iter):
+        x_player = RandomComputerPlayer('X')
+        o_player = SmartComputerPlayer('O')
+        t = TicTacToe()
+        result = play(t, x_player, o_player, print_game=False)
+
+        if result == 'X':
+            x_wins += 1
+        elif result == 'O':
+            o_wins += 1
+        else:
+            ties += 1
+
+    print(f'From {num_iter} games played we have {x_wins} X-wins, {o_wins} O-wins and {ties} ties.')
+

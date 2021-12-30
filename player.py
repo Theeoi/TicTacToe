@@ -2,27 +2,27 @@ import random
 import math
 
 class Player:
-    def __init__(self, letter) -> None:
-        self.letter = letter #letter is X or O
+    def __init__(self, letter: str) -> None:
+        self.letter = letter # letter is X or O
 
-    def get_move(self, game):
-        pass
+    #def get_move(self, game: TicTacToe):
+    #   pass
 
 class RandomComputerPlayer(Player):
-    def __init__(self, letter) -> None:
+    def __init__(self, letter: str) -> None:
         super().__init__(letter)
 
-    def get_move(self, game):
+    def get_move(self, game) -> int:
         square = random.choice(game.available_moves()) # Get a random available spot for our next move
         return square
 
 class HumanPlayer(Player):
-    def __init__(self, letter) -> None:
+    def __init__(self, letter: str) -> None:
         super().__init__(letter)
 
-    def get_move(self, game):
+    def get_move(self, game) -> int:
         valid_square = False
-        val = None
+        val = -1
         while not valid_square:
             square = input(self.letter + '\'s turn. Input move (1-9):')
             try:
@@ -36,10 +36,10 @@ class HumanPlayer(Player):
         return val - 1
 
 class SmartComputerPlayer(Player):
-    def __init__(self, letter) -> None:
+    def __init__(self, letter: str) -> None:
         super().__init__(letter)
 
-    def get_move(self, game):
+    def get_move(self, game) -> int:
         if len(game.available_moves()) == 9:
             square = random.choice(game.available_moves()) # Get a random available spot for our next move
         else:
@@ -47,7 +47,7 @@ class SmartComputerPlayer(Player):
 
         return square
 
-    def minimax(self, state, player):
+    def minimax(self, state, player: str) -> dict:
         max_player = self.letter
         other_player = 'O' if player == 'X' else 'X'
 
@@ -71,9 +71,10 @@ class SmartComputerPlayer(Player):
                     }
 
         for possible_move in state.available_moves():
-            state.make_move(possible_move, player) # Make a move
+            state.make_move(possible_move, player)
 
-            sim_score = self.minimax(state, other_player) # Simulate the game after that move and switch player
+            # Simulate the game after above move and switch player
+            sim_score = self.minimax(state, other_player) 
 
             state.board[possible_move] = ' ' # Undo move
             state.current_winner = None
