@@ -3,7 +3,7 @@ from __future__ import annotations
 import random
 import math
 
-from typing import TYPE_CHECKING 
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from game import TicTacToe
@@ -12,6 +12,7 @@ class Player:
     def __init__(self, letter: str) -> None:
         self.letter = letter # letter is X or O
 
+
 class RandomComputerPlayer(Player):
     def __init__(self, letter: str) -> None:
         super().__init__(letter)
@@ -19,6 +20,7 @@ class RandomComputerPlayer(Player):
     def get_move(self, game: TicTacToe) -> int:
         square = random.choice(game.available_moves()) # Get a random available spot for our next move
         return square
+
 
 class HumanPlayer(Player):
     def __init__(self, letter: str) -> None:
@@ -39,6 +41,7 @@ class HumanPlayer(Player):
         
         return val - 1
 
+
 class SmartComputerPlayer(Player):
     def __init__(self, letter: str) -> None:
         super().__init__(letter)
@@ -51,7 +54,7 @@ class SmartComputerPlayer(Player):
         
         return square
 
-    def minimax(self, state: TicTacToe, player: str) -> dict:
+    def minimax(self, state: TicTacToe, player: str) -> dict: 
         max_player = self.letter
         other_player = 'O' if player == 'X' else 'X'
 
@@ -91,10 +94,7 @@ class SmartComputerPlayer(Player):
                 if sim_score['score'] < best['score']:
                     best = sim_score
 
-        return best
-
-
-            
+        return best 
 
 
 

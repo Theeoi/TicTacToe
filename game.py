@@ -89,11 +89,12 @@ def play(game: TicTacToe, x_player: Player, o_player: Player, print_game: bool =
 
             letter = 'O' if letter == 'X' else 'X'
 
-        if x_player == HumanPlayer or o_player == HumanPlayer:
+        if isinstance(x_player, HumanPlayer) or isinstance(o_player, HumanPlayer):
             time.sleep(.8)
 
     if print_game:
         print('It\'s a tie!')
+
 
 if __name__ == '__main__':
     x_wins, o_wins, ties = [0, 0, 0]
