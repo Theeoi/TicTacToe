@@ -1,18 +1,22 @@
+
+from __future__ import annotations
 import random
 import math
+
+from typing import TYPE_CHECKING 
+
+if TYPE_CHECKING:
+    from game import TicTacToe
 
 class Player:
     def __init__(self, letter: str) -> None:
         self.letter = letter # letter is X or O
 
-    #def get_move(self, game: TicTacToe):
-    #   pass
-
 class RandomComputerPlayer(Player):
     def __init__(self, letter: str) -> None:
         super().__init__(letter)
 
-    def get_move(self, game) -> int:
+    def get_move(self, game: TicTacToe) -> int:
         square = random.choice(game.available_moves()) # Get a random available spot for our next move
         return square
 
@@ -20,7 +24,7 @@ class HumanPlayer(Player):
     def __init__(self, letter: str) -> None:
         super().__init__(letter)
 
-    def get_move(self, game) -> int:
+    def get_move(self, game: TicTacToe) -> int:
         valid_square = False
         val = -1
         while not valid_square:
@@ -39,15 +43,15 @@ class SmartComputerPlayer(Player):
     def __init__(self, letter: str) -> None:
         super().__init__(letter)
 
-    def get_move(self, game) -> int:
+    def get_move(self, game: TicTacToe) -> int:
         if len(game.available_moves()) == 9:
             square = random.choice(game.available_moves()) # Get a random available spot for our next move
         else:
             square = self.minimax(game, self.letter)['position']
-
+        
         return square
 
-    def minimax(self, state, player: str) -> dict:
+    def minimax(self, state: TicTacToe, player: str) -> dict:
         max_player = self.letter
         other_player = 'O' if player == 'X' else 'X'
 

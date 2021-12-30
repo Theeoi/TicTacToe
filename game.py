@@ -1,8 +1,12 @@
 #!/usr/bin/env python 
 
+from __future__ import annotations
 import time
 
+from typing import Union
+
 from player import HumanPlayer, RandomComputerPlayer, SmartComputerPlayer
+Player = Union[HumanPlayer, RandomComputerPlayer, SmartComputerPlayer]
 
 class TicTacToe:
     def __init__(self) -> None:
@@ -18,7 +22,7 @@ class TicTacToe:
         for row in [[str(i) for i in range(j*3+1, (j+1)*3+1)] for j in range(3)]:
             print('| ' + ' | '.join(row) + ' |')
             
-    def available_moves(self) -> list:
+    def available_moves(self) -> list[int]:
         return [i for i, spot in enumerate(self.board) if spot == ' ']
 
     def empty_squares(self) -> bool:
@@ -61,7 +65,7 @@ class TicTacToe:
         return False
 
         
-def play(game: TicTacToe, x_player, o_player, print_game: bool = True):
+def play(game: TicTacToe, x_player: Player, o_player: Player, print_game: bool = True):
     if print_game:
         game.print_board_nums()
 
