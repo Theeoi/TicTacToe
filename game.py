@@ -1,12 +1,8 @@
 #!/usr/bin/env python 
 
-from __future__ import annotations
 import time
 
-from typing import Union
-
-from player import HumanPlayer, RandomComputerPlayer, SmartComputerPlayer
-Player = Union[HumanPlayer, RandomComputerPlayer, SmartComputerPlayer]
+from player import Player, HumanPlayer, RandomComputerPlayer, SmartComputerPlayer
 
 class TicTacToe:
     def __init__(self) -> None:
@@ -99,12 +95,12 @@ def play(game: TicTacToe, x_player: Player, o_player: Player, print_game: bool =
 if __name__ == '__main__':
     x_wins, o_wins, ties = [0, 0, 0]
 
-    num_iter = 100
+    num_iter = 10
     for _ in range(num_iter):
         x_player = RandomComputerPlayer('X')
         o_player = SmartComputerPlayer('O')
         t = TicTacToe()
-        result = play(t, x_player, o_player, print_game=False)
+        result = play(t, x_player, o_player, print_game=True)
 
         if result == 'X':
             x_wins += 1
